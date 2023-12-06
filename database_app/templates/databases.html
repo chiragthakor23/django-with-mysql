@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Database</title>
+</head>
+<body>
+    <h1>Select a Database:</h1>
+    <form method="get" action="{% url 'show_tables' %}">
+        <select name="selected_database">
+            <option value="" selected disabled>Select a database</option>
+            {% for database in databases %}
+                <option value="{{ database }}">{{ database }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+</body>
+</html>

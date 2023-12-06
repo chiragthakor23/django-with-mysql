@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tables in {{ selected_database }}</title>
+</head>
+<body>
+    <h1>Tables in {{ selected_database }}</h1>
+    
+    <form method="get" action="{% url 'show_tables' %}">
+        <select name="selected_database">
+            <option value="{{ selected_database }}" selected>{{ selected_database }}</option>
+        </select>
+        <select name="selected_table">
+            <option value="" selected disabled>Select a table</option>
+            {% for table in tables %}
+                <option value="{{ table }}">{{ table }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <a href="{% url 'show_databases' %}">reset</a>
+
+    {% if selected_table %}
+        <h2>Selected Table: {{ selected_table }}</h2>
+        {% if error_message %}
+            <p>{{ error_message }}</p>
+        {% else %}
+            {% if table_data %}
+                <table border="1">
+                    <tr>
+                        {% for column in columns %}
+                            <th>{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                    {% for row in table_data %}
+                        <tr>
+                            {% for value in row %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No data available for the selected table.</p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</body>
+</html>
